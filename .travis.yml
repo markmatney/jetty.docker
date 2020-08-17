@@ -29,15 +29,8 @@ env:
   - VERSION=9.4-jre8
   - VERSION=9.4-jre8-slim
 
-install:
-  - git clone https://github.com/docker-library/official-images.git ~/official-images
-
 before_script:
-  - env | sort
-  - wget -qO- 'https://github.com/tianon/pgp-happy-eyeballs/raw/master/hack-my-builds.sh' | bash
-  - cd "${VERSION}"
   - image="jetty:${VERSION}"
 
 script:
-  - docker build --pull -t "$image" .
-  - ~/official-images/test/run.sh "$image"
+  - echo "$image" .
