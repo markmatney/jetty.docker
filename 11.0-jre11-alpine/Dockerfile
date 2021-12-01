@@ -1,6 +1,6 @@
-FROM openjdk:LABEL
+FROM alpine:3.15
 
-ENV JETTY_VERSION VERSION
+ENV JETTY_VERSION 11.0.7
 ENV JETTY_HOME /usr/local/jetty
 ENV JETTY_BASE /var/lib/jetty
 ENV TMPDIR /tmp/jetty
@@ -29,6 +29,9 @@ ENV JETTY_GPG_KEYS \
 	F254B35617DC255D9344BCFA873A8E86B4372146
 
 RUN set -xe ; \
+	# Install system dependencies
+	apk update && apk add curl gpg gpg-agent gnupg-dirmngr openjdk11-jre ; \
+	#
 	# fetch GPG keys
 	export GNUPGHOME=/jetty-keys ; \
 	mkdir -p "$GNUPGHOME" ; \
@@ -66,9 +69,8 @@ RUN set -xe ; \
 	java -jar "$JETTY_HOME/start.jar" --create-startd \
 		--add-to-start="server,http,deploy,jsp,jstl,ext,resources,websocket" ; \
 	mkdir -p "$TMPDIR" ; \
-	groupadd -r jetty && useradd -r -g jetty jetty ; \
+	addgroup -S jetty && adduser -S -h "$JETTY_BASE" jetty jetty ; \
 	chown -R jetty:jetty "$JETTY_HOME" "$JETTY_BASE" "$TMPDIR" ; \
-	usermod -d $JETTY_BASE jetty ; \
 	#
 	# Cleanup
 	rm -rf /tmp/hsperfdata_root ; \
