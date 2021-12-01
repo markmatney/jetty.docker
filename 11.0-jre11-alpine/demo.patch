@@ -1,0 +1,14 @@
+diff --git a/11.0-jre11-alpine/Dockerfile b/11.0-jre11-alpine/Dockerfile
+index 826445e..a50b4e0 100644
+--- a/11.0-jre11-alpine/Dockerfile
++++ b/11.0-jre11-alpine/Dockerfile
+@@ -85,6 +85,9 @@ WORKDIR $JETTY_BASE
+ COPY docker-entrypoint.sh generate-jetty-start.sh /
+ 
+ USER jetty
++#
++# Install demo apps
++RUN java -jar "$JETTY_HOME/start.jar" --add-module=demo
+ EXPOSE 8080
+ ENTRYPOINT ["/docker-entrypoint.sh"]
+ CMD ["java","-jar","/usr/local/jetty/start.jar"]
