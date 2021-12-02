@@ -77,6 +77,7 @@ RUN set -xe ; \
 	rm -fr $JETTY_HOME/jetty.tar.gz* ; \
 	rm -fr /jetty-keys $GNUPGHOME ; \
 	rm -rf /tmp/hsperfdata_root ; \
+	apk del curl gnupg ; \
 	#
 	# Basic smoke test
 	java -jar "$JETTY_HOME/start.jar" --list-config ;
