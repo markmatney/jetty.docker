@@ -30,7 +30,7 @@ ENV JETTY_GPG_KEYS \
 
 RUN set -xe ; \
 	# Install system dependencies
-	apk update && apk add curl gpg gpg-agent gnupg-dirmngr openjdk11-jre ; \
+	apk update && apk add curl gnupg openjdk11-jre ; \
 	#
 	# fetch GPG keys
 	export GNUPGHOME=/jetty-keys ; \
