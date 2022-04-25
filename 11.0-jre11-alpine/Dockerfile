@@ -1,5 +1,7 @@
 FROM alpine:3.15
 
+ARG INSTALL_DEMO_APPS=false
+
 ENV JETTY_VERSION 11.0.7
 ENV JETTY_HOME /usr/local/jetty
 ENV JETTY_BASE /var/lib/jetty
@@ -86,6 +88,9 @@ WORKDIR $JETTY_BASE
 COPY docker-entrypoint.sh generate-jetty-start.sh /
 
 USER jetty
+#
+# Optionally install demo apps
+RUN if [ $INSTALL_DEMO_APPS != "false" ] ; then java -jar "$JETTY_HOME/start.jar" --add-module=demo ; fi
 EXPOSE 8080
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["java","-jar","/usr/local/jetty/start.jar"]
